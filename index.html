@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050505">
+  <title>Ducks Hunter — Охота началась</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { overflow-y: auto; overflow-x: hidden; }
+
+    /* Ambient star field */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+      animation: twinkle var(--dur) ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: var(--min); }
+      50%       { opacity: var(--max); }
+    }
+
+    /* Hero section */
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px 20px;
+    }
+
+    .duck-icon {
+      font-size: clamp(48px, 12vw, 80px);
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 20px rgba(245,200,66,0.5));
+      animation: duckBob 3s ease-in-out infinite;
+    }
+    @keyframes duckBob {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50%       { transform: translateY(-10px) rotate(3deg); }
+    }
+
+    .index-logo {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(28px, 10vw, 60px);
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: 0.06em;
+      line-height: 1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #f5c842 0%, #fff8dc 40%, #e0a800 80%, #a07c1a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 24px rgba(245,200,66,0.45));
+    }
+
+    .index-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(10px, 3vw, 14px);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: #6a5d3a;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* Section labels */
+    .section-label {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid;
+      width: 100%;
+      max-width: 480px;
+    }
+    .section-label.gold  { color: #a07c1a; border-color: rgba(245,200,66,0.2); }
+    .section-label.cursed { color: #6b21a8; border-color: rgba(123,47,255,0.25); }
+
+    /* Grid section */
+    .grid-section {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      padding: 0 20px;
+      margin: 0 auto 32px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .card-thumb {
+      aspect-ratio: 9/16;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.25s ease, filter 0.25s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    .card-thumb:hover, .card-thumb:active {
+      transform: translateY(-5px) scale(1.04);
+    }
+
+    .card-thumb.gold-type {
+      box-shadow: 0 0 14px rgba(245,200,66,0.3), inset 0 0 0 1px rgba(245,200,66,0.15);
+    }
+
+    .card-thumb.cursed-type {
+      box-shadow: 0 0 14px rgba(123,47,255,0.35), inset 0 0 0 1px rgba(123,47,255,0.2);
+    }
+
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-thumb .card-label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, transparent 100%);
+      padding: 18px 5px 5px;
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: 0.06em;
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+
+    /* Unknown card slot */
+    .card-thumb.unknown {
+      background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+      border: 1px dashed rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+    }
+    .card-thumb.unknown::before {
+      content: '?';
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 28px;
+      color: rgba(255,255,255,0.12);
+    }
+
+    /* Rules section */
+    .rules-section {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      padding: 0 24px;
+      margin: 0 auto 24px;
+    }
+
+    .rules-title {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: #6a5d3a;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .rules-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .rules-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      line-height: 1.6;
+      color: rgba(240,232,208,0.6);
+      letter-spacing: 0.03em;
+    }
+
+    .rules-list li .num {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 14px;
+      color: #a07c1a;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 1px;
+    }
+
+    /* Divider */
+    .divider {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 480px;
+      margin: 8px auto 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(245,200,66,0.2), transparent);
+    }
+    .divider-icon {
+      font-size: 16px;
+      opacity: 0.5;
+    }
+
+    /* Footer */
+    .index-footer {
+      position: relative;
+      z-index: 1;
+      padding: 0 24px 60px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Star field -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Ambient glow -->
+  <div class="ambient gold-theme"></div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="duck-icon">🦆</div>
+    <div class="index-logo">Ducks<br>Hunter</div>
+    <div class="index-subtitle">Охоться. Переворачивай. Побеждай.</div>
+  </div>
+
+  <!-- Golden cards -->
+  <div class="grid-section">
+    <div class="section-label gold">✦ Золотые Утки ✦</div>
+    <div class="cards-grid">
+      <a href="chaotic.html" class="card-thumb gold-type">
+        <img src="cards/chaotic.png" alt="Chaos">
+        <div class="card-label">Chaos Duck</div>
+      </a>
+      <a href="holy.html" class="card-thumb gold-type">
+        <img src="cards/holy.png" alt="Holy">
+        <div class="card-label">Holy Duck</div>
+      </a>
+      <a href="priority.html" class="card-thumb gold-type">
+        <img src="cards/priority.png" alt="Priority">
+        <div class="card-label">Priority Duck</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="divider"><span class="divider-icon">⚜</span></div>
+
+  <!-- Cursed cards -->
+  <div class="grid-section">
+    <div class="section-label cursed">☽ Проклятые Утки ☾</div>
+    <div class="cards-grid">
+      <a href="pastuh.html" class="card-thumb cursed-type">
+        <img src="cards/Pastuh.png" alt="Пастух">
+        <div class="card-label">Средневековый Пастух</div>
+      </a>
+      <a href="someliee.html" class="card-thumb cursed-type">
+        <img src="cards/someliee.png" alt="Сомелье">
+        <div class="card-label">Злитный Сомелье</div>
+      </a>
+      <a href="infozigan.html" class="card-thumb cursed-type">
+        <img src="cards/Infozigan.png" alt="Инфоцыган">
+        <div class="card-label">Инфоцыган-Гуру</div>
+      </a>
+      <a href="zlodei.html" class="card-thumb cursed-type">
+        <img src="cards/skasochnui-zlodeii.png" alt="Злодей">
+        <div class="card-label">Сказочный Злодей</div>
+      </a>
+      <a href="toksik.html" class="card-thumb cursed-type">
+        <img src="cards/toksik-kouch.png" alt="Токсик">
+        <div class="card-label">Токсик Коуч</div>
+      </a>
+      <a href="polit.html" class="card-thumb cursed-type">
+        <img src="cards/polit-doll.png" alt="Марионетка">
+        <div class="card-label">Полит. Марионетка</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="divider"><span class="divider-icon">🦆</span></div>
+
+  <!-- Rules -->
+  <div class="rules-section">
+    <div class="rules-title">Правила охоты</div>
+    <ul class="rules-list">
+      <li>
+        <span class="num">I.</span>
+        Найди резиновую утку с QR-кодом в пространстве
+      </li>
+      <li>
+        <span class="num">II.</span>
+        Сканируй QR-код и открой секретную карточку
+      </li>
+      <li>
+        <span class="num">III.</span>
+        Нажми на карточку чтобы раскрыть её силу
+      </li>
+      <li>
+        <span class="num">IV.</span>
+        Золотые утки приносят удачу. Проклятые — сюрпризы
+      </li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <div class="index-footer">
+    <div class="index-footer">
+      <p style="font-size:10px; letter-spacing:0.3em; color:#3d3020; text-transform:uppercase;">Ducks Hunter © 2025</p>
+    </div>
+  </div>
+
+  <script>
+    // Generate star field
+    const starsEl = document.getElementById('stars');
+    for (let i = 0; i < 80; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      const size = 1 + Math.random() * 2;
+      const minO = (0.05 + Math.random() * 0.15).toFixed(2);
+      const maxO = (parseFloat(minO) + 0.2 + Math.random() * 0.3).toFixed(2);
+      star.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        width: ${size}px;
+        height: ${size}px;
+        --dur: ${2 + Math.random() * 4}s;
+        --min: ${minO};
+        --max: ${maxO};
+        animation-delay: ${Math.random() * 4}s;
+      `;
+      starsEl.appendChild(star);
+    }
+  </script>
+
+</body>
+</html>

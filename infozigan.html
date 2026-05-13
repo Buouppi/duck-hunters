@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#050505">
+  <title>Инфоцыган-Гуру — Ducks Hunter</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient glow background -->
+  <div class="ambient cursed-theme"></div>
+
+  <!-- Spark particles container -->
+  <div class="sparks"></div>
+
+  <!-- Main scene -->
+  <div class="scene">
+    <div class="card-wrapper cursed-theme">
+
+      <!-- Flip card -->
+      <div class="card-flip">
+
+        <!-- BACK side -->
+        <div class="card-face card-back">
+          <img src="cards/proklatie.png" alt="Card Back" draggable="false">
+
+          <!-- Tap hint overlay -->
+          <div class="tap-hint">
+            <span class="tap-hint-text">Нажми чтобы открыть</span>
+            <span class="tap-hint-icon">👆</span>
+          </div>
+
+          <!-- Corner ornaments -->
+          <svg class="corner-ornament tl" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38 L2 2 L38 2" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="2" cy="2" r="2.5" fill="#a855f7"/>
+          </svg>
+          <svg class="corner-ornament tr" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38 L2 2 L38 2" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="2" cy="2" r="2.5" fill="#a855f7"/>
+          </svg>
+          <svg class="corner-ornament bl" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38 L2 2 L38 2" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="2" cy="2" r="2.5" fill="#a855f7"/>
+          </svg>
+          <svg class="corner-ornament br" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 38 L2 2 L38 2" stroke="#a855f7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="2" cy="2" r="2.5" fill="#a855f7"/>
+          </svg>
+        </div>
+
+        <!-- FRONT side -->
+        <div class="card-face card-front">
+          <img src="cards/Infozigan.png" alt="Инфоцыган-Гуру" draggable="false">
+        </div>
+
+      </div><!-- /card-flip -->
+    </div><!-- /card-wrapper -->
+  </div><!-- /scene -->
+
+  <script src="script.js"></script>
+</body>
+</html>
