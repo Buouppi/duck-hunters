@@ -206,13 +206,22 @@ body::before {
   border-radius: var(--card-radius);
 }
 
-/* === Glow — на wrapper, НЕ на card-flip! === */
-.card-wrapper.gold-theme {
-  filter: drop-shadow(0 0 30px rgba(245,200,66,0.5)) drop-shadow(0 0 70px rgba(245,200,66,0.2));
+/* === Glow через псевдоэлемент — не ломает preserve-3d === */
+.card-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: calc(var(--card-radius) + 20px);
+  z-index: -1;
+  pointer-events: none;
 }
 
-.card-wrapper.cursed-theme {
-  filter: drop-shadow(0 0 30px rgba(123,47,255,0.55)) drop-shadow(0 0 70px rgba(123,47,255,0.25));
+.card-wrapper.gold-theme::after {
+  box-shadow: 0 0 40px 10px rgba(245,200,66,0.4), 0 0 80px 20px rgba(245,200,66,0.15);
+}
+
+.card-wrapper.cursed-theme::after {
+  box-shadow: 0 0 40px 10px rgba(123,47,255,0.45), 0 0 80px 20px rgba(123,47,255,0.2);
 }
 
 .sparks {
