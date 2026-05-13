@@ -33,7 +33,6 @@ html, body {
   user-select: none;
 }
 
-/* === Noise grain overlay === */
 body::before {
   content: '';
   position: fixed;
@@ -44,7 +43,6 @@ body::before {
   z-index: 9999;
 }
 
-/* === Scene === */
 .scene {
   width: 100%;
   height: 100%;
@@ -55,7 +53,6 @@ body::before {
   overflow: hidden;
 }
 
-/* === Ambient background glow === */
 .ambient {
   position: fixed;
   inset: 0;
@@ -92,17 +89,14 @@ body::before {
   to   { opacity: 1;   transform: translate(-50%,-50%) scale(1.1); }
 }
 
-/* === Card container === */
 .card-wrapper {
   position: relative;
   z-index: 10;
   perspective: 1200px;
-  /* 9:16 ratio, max fit screen */
   width: min(92vw, calc(92vh * 9 / 16));
   height: min(calc(92vw * 16 / 9), 92vh);
 }
 
-/* Floating animation */
 @keyframes floatCard {
   0%   { transform: translateY(0px) rotate(0deg); }
   33%  { transform: translateY(-8px) rotate(0.4deg); }
@@ -118,7 +112,7 @@ body::before {
   animation: none;
 }
 
-/* === 3D Flip card === */
+/* === 3D Flip === */
 .card-flip {
   width: 100%;
   height: 100%;
@@ -141,7 +135,6 @@ body::before {
   overflow: hidden;
 }
 
-/* === BACK face === */
 .card-back {
   z-index: 2;
 }
@@ -154,7 +147,6 @@ body::before {
   border-radius: var(--card-radius);
 }
 
-/* === Tap hint overlay === */
 .tap-hint {
   position: absolute;
   inset: 0;
@@ -201,7 +193,6 @@ body::before {
   50% { transform: translateY(6px); }
 }
 
-/* === FRONT face === */
 .card-front {
   transform: rotateY(180deg);
   z-index: 1;
@@ -215,24 +206,15 @@ body::before {
   border-radius: var(--card-radius);
 }
 
-/* === Card glow shadows === */
-.card-wrapper.gold-theme .card-flip:not(.flipped) {
+/* === Glow — на wrapper, НЕ на card-flip! === */
+.card-wrapper.gold-theme {
   filter: drop-shadow(0 0 30px rgba(245,200,66,0.5)) drop-shadow(0 0 70px rgba(245,200,66,0.2));
 }
 
-.card-wrapper.cursed-theme .card-flip:not(.flipped) {
+.card-wrapper.cursed-theme {
   filter: drop-shadow(0 0 30px rgba(123,47,255,0.55)) drop-shadow(0 0 70px rgba(123,47,255,0.25));
 }
 
-.card-wrapper.gold-theme .card-flip.flipped {
-  filter: drop-shadow(0 0 40px rgba(245,200,66,0.6)) drop-shadow(0 0 100px rgba(245,200,66,0.25));
-}
-
-.card-wrapper.cursed-theme .card-flip.flipped {
-  filter: drop-shadow(0 0 40px rgba(123,47,255,0.65)) drop-shadow(0 0 100px rgba(123,47,255,0.3));
-}
-
-/* === Particle sparks === */
 .sparks {
   position: fixed;
   inset: 0;
@@ -253,14 +235,6 @@ body::before {
   100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
 }
 
-/* === Reveal shimmer on front === */
-@keyframes shimmerReveal {
-  0%   { opacity: 0; transform: rotateY(180deg) scale(0.95); }
-  60%  { opacity: 1; transform: rotateY(180deg) scale(1.02); }
-  100% { opacity: 1; transform: rotateY(180deg) scale(1); }
-}
-
-/* === Scanlines on back === */
 .card-back::after {
   content: '';
   position: absolute;
@@ -276,7 +250,6 @@ body::before {
   pointer-events: none;
 }
 
-/* === Corner ornaments on back === */
 .corner-ornament {
   position: absolute;
   width: 40px;
@@ -291,7 +264,6 @@ body::before {
 .corner-ornament.bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
 .corner-ornament.br { bottom: 12px; right: 12px; transform: scale(-1,-1); }
 
-/* === Index page === */
 .index-page {
   min-height: 100vh;
   overflow-y: auto;
@@ -384,7 +356,6 @@ body::before {
   text-align: center;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(245,200,66,0.2); border-radius: 2px; }
